@@ -1,0 +1,54 @@
+name: Estado de la red de boyas
+
+# Cada 10 minutos consulta las fuentes, genera estado.json y publica el sitio en GitHub Pages.
+# No hace commits: el estado viaja solo en la publicación, así el repositorio no crece.
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:          # botón "Run workflow" para forzar una actualización
+  repository_dispatch:
+    types: [actualizar]       # disparo externo opcional (más puntual que el cron de GitHub)
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Preparar sitio
+        run: |
+          mkdir -p _site
+          cp index.html _site/
+          # Recupera el estado anterior para conservar las noticias si la fuente falla
+          REPO="${GITHUB_REPOSITORY#*/}"
+          curl -fsSL --max-time 20 "https://${GITHUB_REPOSITORY_OWNER,,}.github.io/${REPO}/estado.json" -o _site/estado.json || true
+
+      - name: Consultar boyas y noticias
+        working-directory: _site
+        run: python ../colector.py
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deploy
+        uses: actions/deploy-pages@v4
