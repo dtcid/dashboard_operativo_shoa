@@ -1738,16 +1738,20 @@ window.addEventListener('hashchange', () => mostrar(location.hash === '#mapa' ? 
 mostrar(location.hash === '#mapa' ? 'mapa' : 'resumen');
 (function reloj() { const el = document.getElementById('hoy'); const f = () => el.textContent = new Date().toLocaleString('es-CL', { timeZone: TZ, weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }) + ' (hora Chile)'; f(); setInterval(f, 30e3); })();
 
+function directoTxt() {
+  if (!DIRECTO.t) return 'Consultando boyas de oleaje y noticias desde este navegador…';
+  return DIRECTO.oleaje ? `Oleaje y noticias: consulta directa ${fmtLocal(DIRECTO.t)} (${DIRECTO.oleaje}/${DIRECTO.total} boyas respondieron).` : 'Oleaje y noticias: el sitio de boyas no respondió a este navegador; se muestran los últimos datos disponibles.';
+}
 function renderFuente() {
   const g = new Date(ESTADO.generado_utc), ms = Date.now() - g;
   const el = document.getElementById('fuente'), bn = document.getElementById('staleBanner');
   document.getElementById('kUpd').textContent = edad(ms).replace('hace ', '');
   if (FUENTE === 'vivo') {
-    el.innerHTML = `Datos del colector: ${fmtLocal(g)} (hora Chile). Se revisa cada ${REFRESCO_MIN} min.`;
+    el.innerHTML = `DART: colector ${fmtLocal(g)} (hora Chile). ` + directoTxt() + ` Se revisa cada ${REFRESCO_MIN} min.`;
     bn.classList.toggle('on', ms > 40 * 60e3);
     bn.innerHTML = `⚠ El colector no actualiza desde ${fmtLocal(g)}: los estados pueden estar desfasados.`;
   } else {
-    el.innerHTML = `Mostrando la instantánea incorporada del ${fmtLocal(g)} (hora Chile). Para datos en vivo, abra el dashboard desde su sitio publicado junto al colector.`;
+    el.innerHTML = `DART: instantánea incorporada del ${fmtLocal(g)} (hora Chile); para datos en vivo abra el sitio publicado. ` + directoTxt();
     bn.classList.add('on');
     bn.innerHTML = `Instantánea del ${fmtLocal(g)} · sin conexión con el colector`;
   }
@@ -1759,12 +1763,60 @@ async function cargarEstado() {
     if (!r.ok) throw new Error(r.status);
     const d = await r.json();
     if (!d || !Array.isArray(d.boyas)) throw new Error('formato');
-    ESTADO = d; FUENTE = 'vivo';
+    const previo = ESTADO; ESTADO = JSON.parse(JSON.stringify(d)); FUENTE = 'vivo';
+    // conserva lo consultado directamente hasta que llegue la nueva consulta (evita parpadeos)
+    if (previo) for (const b of ESTADO.boyas) { const p = previo.boyas.find(x => x.clave === b.clave); if (p && /directa/.test(p.fuente || '') && (!b.ultimo_utc || b.error)) Object.assign(b, p); }
+    if (previo && !ESTADO.noticias.length && previo.noticias && previo.noticias.length) ESTADO.noticias = previo.noticias;
   } catch (e) {
-    if (!ESTADO) { ESTADO = SNAPSHOT; FUENTE = 'snapshot'; }
+    if (!ESTADO) { ESTADO = JSON.parse(JSON.stringify(SNAPSHOT)); FUENTE = 'snapshot'; }
   }
   renderBoyasSeguro(); renderNoticias();
   if (typeof renderSitrep === 'function' && typeof SITREP !== 'undefined' && SITREP) renderSitrep();
+  complementarDirecto();
+}
+
+// ---- Consulta directa desde el navegador ----
+// El sitio de boyas rechaza las consultas desde servidores en la nube, pero responde a un navegador en Chile.
+// Por eso las boyas de oleaje y las noticias se piden aquí; las DART (NDBC) las trae el colector.
+const BASE_OLEAJE = 'https://www.shoa.cl/boyas/';
+const ARCH_OLEAJE = { IQQ: 'consultar260_2.php', ANF: 'consultar_610501.php', CON: 'consultar_610a01.php', SAN: 'consultar_810700.php', THN: 'consultar_610401.php', DES: 'consultar_520700.php', PAR: 'consultar_610701.php' };
+const VARS_OLEAJE = [['hsig', 'Altura significativa', 'm'], ['hmax', 'Altura máxima', 'm'], ['tp', 'Período peak', 's'], ['tsig', 'Período significativo', 's'], ['dm', 'Dirección media', '°'], ['dp', 'Dirección peak', '°'], ['tw', 'Temperatura del agua', '°C'], ['wsd', 'Viento', 'm/s'], ['wmax', 'Racha', 'm/s'], ['mb', 'Presión', 'hPa'], ['taire', 'Temperatura del aire', '°C']];
+const numv = (v) => { if (v == null || String(v).trim() === '' || v === 'null') return null; const x = parseFloat(String(v).replace(',', '.')); return isNaN(x) ? null : x; };
+const distKm = (la1, lo1, la2, lo2) => Math.hypot((lo2 - lo1) * 111.32 * Math.cos((la1 + la2) / 2 * Math.PI / 180), (la2 - la1) * 110.57);
+let DIRECTO = { oleaje: 0, noticias: false, t: null };
+async function conTiempo(p, ms) { return Promise.race([p, new Promise((_, rej) => setTimeout(() => rej(new Error('tiempo')), ms))]); }
+async function oleajeDirecto(b) {
+  const r = await conTiempo(fetch(BASE_OLEAJE + ARCH_OLEAJE[b.clave] + '?callback=cb&t=' + Date.now(), { method: 'POST', cache: 'no-store' }), 25000);
+  if (!r.ok) throw new Error(r.status);
+  const t = await r.text(); const i = t.indexOf('('), j = t.lastIndexOf(')');
+  const filas = JSON.parse(i >= 0 && j > i ? t.slice(i + 1, j) : t);
+  const serie = filas.filter(f => f.idBoya && f.fecha_completa).map(f => [new Date(f.fecha_completa.replace(' ', 'T') + 'Z'), f]).filter(x => !isNaN(x[0])).sort((a, c) => a[0] - c[0]);
+  const out = { fuente: 'Visor web de boyas (consulta directa)', id_fuente: ARCH_OLEAJE[b.clave].replace(/\D/g, '') || b.clave, horas_consultadas: filas.length, horas_con_dato: serie.length, error: undefined };
+  if (!serie.length) { out.ultimo_utc = null; out.medicion = {}; delete out.posicion_reportada; return out; }
+  const [tt, f] = serie[serie.length - 1];
+  out.ultimo_utc = tt.toISOString().replace(/\.\d{3}Z$/, 'Z');
+  out.medicion = {}; for (const [k, e, u] of VARS_OLEAJE) { const v = numv(f[k]); if (v != null) out.medicion[k] = { etiqueta: e, valor: v, unidad: u }; }
+  const la = numv(f.latitud), lo = numv(f.longuitud);
+  if (la != null && lo != null && la !== 0) { const d = distKm(b.lat, b.lon, la, lo); out.posicion_reportada = { lat: la, lon: lo, dist_km: Math.round(d * 1000) / 1000, fuera_de_borneo: d > b.radio_km }; }
+  out.serie_hsig = serie.slice(-48).map(([x, y]) => [x.toISOString(), numv(y.hsig)]).filter(p => p[1] != null);
+  return out;
+}
+async function noticiasDirecto() {
+  const r = await conTiempo(fetch('https://www.shoa.cl/shoaapi/index.php/inicio/portada_get', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: 'idioma=1', cache: 'no-store' }), 20000);
+  const d = await r.json();
+  return (d.noticias || []).slice(0, 8).map(n => ({ id: n.id, titulo: String(n.title || '').replace(/\s+/g, ' ').trim(), resumen: String(n.introtext || '').replace(/\s+/g, ' ').trim(), imagen: n.img_port ? 'https://shoabucket.s3.amazonaws.com/shoa.cl' + n.img_port : null }));
+}
+async function complementarDirecto() {
+  if (!ESTADO) return;
+  const olas = ESTADO.boyas.filter(b => b.tipo === 'Oleaje' && ARCH_OLEAJE[b.clave]);
+  const res = await Promise.allSettled(olas.map(oleajeDirecto));
+  let ok = 0;
+  res.forEach((r, i) => { if (r.status === 'fulfilled') { const b = olas[i]; for (const k of ['error', 'medicion', 'posicion_reportada', 'serie_hsig']) delete b[k]; Object.assign(b, r.value); ok++; } });
+  let notOk = false;
+  try { const ns = await noticiasDirecto(); if (ns.length) { ESTADO.noticias = ns; notOk = true; } } catch (e) {}
+  DIRECTO = { oleaje: ok, total: olas.length, noticias: notOk, t: new Date() };
+  if (ok || notOk) { renderBoyasSeguro(); renderNoticias(); if (typeof renderSitrep === 'function' && typeof SITREP !== 'undefined' && SITREP) renderSitrep(); }
+  else renderFuente();
 }
 let pendiente = false;
 function renderBoyasSeguro() { // no cerrar una ficha abierta: se redibuja al cerrarla

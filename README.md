@@ -17,6 +17,11 @@ Autor: CF Felipe Rifo Espósito · feliperifo@gmail.com
 - **Boyas DART** (Iquique, Mejillones, Caldera, Pichidangui, Constitución): archivos de tiempo real de NOAA/NDBC (estaciones 32401, 32403, 32402, 32404 y 34420).
 - **Noticias**: las publicaciones de portada del sitio institucional.
 
+El sitio de boyas y de noticias rechaza las consultas que vienen de servidores en la nube (GitHub responde con HTTP 405), pero sí responde a un navegador en Chile. Por eso el reparto es:
+
+- **DART**: las consulta el colector en GitHub y quedan en `estado.json`.
+- **Boyas de oleaje y noticias**: las consulta directamente el navegador de quien abre el dashboard, cada 5 minutos. Si esa consulta falla, se muestran los últimos datos disponibles y el pie del área 1 lo indica.
+
 ## Semáforo
 
 | Estado | Oleaje | DART |

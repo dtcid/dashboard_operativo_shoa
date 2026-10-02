@@ -78,7 +78,7 @@ def http(url, data=None, intentos=3, timeout=40):
             with urllib.request.urlopen(req, timeout=timeout) as r:
                 return r.read().decode("utf-8", errors="replace")
         except urllib.error.HTTPError as e:
-            if e.code == 404:
+            if e.code in (403, 404, 405):   # rechazo explícito: no se reintenta
                 raise
             ultimo = e
         except Exception as e:  # red, timeout
