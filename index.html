@@ -1074,6 +1074,24 @@ svg.leaflet-image-layer.leaflet-interactive path {
     .footSig { margin-top: 8px; }
   }
   .aBody::-webkit-scrollbar { width: 8px; } .aBody::-webkit-scrollbar-thumb { background: #d3dae3; border-radius: 4px; }
+
+  /* ---------- publicación ---------- */
+  body:not(.editor) .ed { display: none; }
+  body.editor .edOff, body:not(.editor) .edOn { display: none; }
+  .sello.local { color: #8a5300; }
+  #pubBox { display: none; border-top: 1px solid var(--line); padding-top: 8px; }
+  #pubBox.on { display: block; }
+  .pubH { font-size: 12.5px; font-weight: 700; color: var(--navy); } .pubH span { font-weight: 500; color: var(--muted); }
+  #pubPrev { max-height: 26vh; overflow: auto; background: #f8fafc; border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; font: 11.5px/1.45 ui-monospace, Consolas, monospace; white-space: pre-wrap; margin: 6px 0; }
+  .pubSteps { margin: 6px 0 0; padding-left: 18px; font-size: 12px; color: var(--ink-2); line-height: 1.5; } .pubSteps .act { margin: 0 0 4px; width: auto; display: inline-block; }
+  .grTab { margin: 4px 0 6px; display: flex; flex-direction: column; gap: 5px; }
+  .grRow { display: grid; grid-template-columns: 112px 1fr; align-items: center; gap: 8px; }
+  .grL { font-size: 11.5px; font-weight: 700; color: var(--ink-2); }
+  .grs { display: flex; flex-wrap: wrap; gap: 4px; }
+  .gr { display: inline-flex; align-items: baseline; gap: 4px; border: 1px solid var(--line); border-radius: 6px; padding: 2px 7px; background: #fff; }
+  .gr em { font-style: normal; font-size: 10.5px; font-weight: 700; color: var(--muted); } .gr b { font-size: 13px; color: var(--navy); font-variant-numeric: tabular-nums; }
+  .gr.cero { opacity: .45; }
+  .srBox { overflow-y: auto; }
   @media (max-width: 760px) { #staleBanner { top: 64px; } }
 </style>
 </head>
@@ -1090,7 +1108,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
 
   <main class="areas">
     <section class="area">
-      <div class="aHead"><h2><span class="n">1</span>Estaciones · operatividad <span class="cnt" id="cnt_red"></span></h2><div class="aTools"><span class="sello vacio" id="sello_est">Sin cargar</span><button type="button" class="aBtn pri" data-area="est" data-acc="cargar">Cargar</button><button type="button" class="aBtn" data-area="est" data-acc="ver">Ver texto</button><button type="button" class="aBtn" data-area="est" data-acc="quitar">Quitar</button></div></div>
+      <div class="aHead"><h2><span class="n">1</span>Estaciones · operatividad <span class="cnt" id="cnt_red"></span></h2><div class="aTools"><span class="sello vacio" id="sello_est">Sin publicar</span><button type="button" class="aBtn pri ed" data-area="est" data-acc="publicar">Publicar</button><button type="button" class="aBtn ed" data-area="est" data-acc="cargar">Vista local</button><button type="button" class="aBtn" data-area="est" data-acc="ver">Ver texto</button><button type="button" class="aBtn ed" data-area="est" data-acc="quitar">Quitar vista local</button></div></div>
       <div class="aBody">
       <div id="srMat"></div>
       <h3 class="subH">Estado medido por el monitor</h3>
@@ -1107,14 +1125,14 @@ svg.leaflet-image-layer.leaflet-interactive path {
     </section>
 
     <section class="area">
-      <div class="aHead"><h2><span class="n">2</span>Personal en comisión</h2><div class="aTools"><span class="sello vacio" id="sello_per">Sin cargar</span><button type="button" class="aBtn pri" data-area="per" data-acc="cargar">Cargar</button><button type="button" class="aBtn" data-area="per" data-acc="ver">Ver texto</button><button type="button" class="aBtn" data-area="per" data-acc="quitar">Quitar</button></div></div>
+      <div class="aHead"><h2><span class="n">2</span>Personal en comisión</h2><div class="aTools"><span class="sello vacio" id="sello_per">Sin publicar</span><button type="button" class="aBtn pri ed" data-area="per" data-acc="publicar">Publicar</button><button type="button" class="aBtn ed" data-area="per" data-acc="cargar">Vista local</button><button type="button" class="aBtn" data-area="per" data-acc="ver">Ver texto</button><button type="button" class="aBtn ed" data-area="per" data-acc="quitar">Quitar vista local</button></div></div>
       <div class="aBody">
       <div id="srPers"></div>
       </div>
     </section>
 
     <section class="area">
-      <div class="aHead"><h2><span class="n">3</span>Noticias SHOA <span class="cnt" id="cnt_news"></span></h2><div class="aTools"><span class="sello vacio" id="sello_not">Sin cargar</span><button type="button" class="aBtn pri" data-area="not" data-acc="cargar">Cargar</button><button type="button" class="aBtn" data-area="not" data-acc="ver">Ver texto</button><button type="button" class="aBtn" data-area="not" data-acc="quitar">Quitar</button></div></div>
+      <div class="aHead"><h2><span class="n">3</span>Noticias SHOA <span class="cnt" id="cnt_news"></span></h2><div class="aTools"><span class="sello vacio" id="sello_not">Sin publicar</span><button type="button" class="aBtn pri ed" data-area="not" data-acc="publicar">Publicar</button><button type="button" class="aBtn ed" data-area="not" data-acc="cargar">Vista local</button><button type="button" class="aBtn" data-area="not" data-acc="ver">Ver texto</button><button type="button" class="aBtn ed" data-area="not" data-acc="quitar">Quitar vista local</button></div></div>
       <div class="aBody">
       <div id="news"><div class="emptyNote">Cargando…</div></div>
       </div>
@@ -1126,7 +1144,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
     <span><b>Ver mapa</b><small>Estaciones operativas y no operativas · personal desplegado en comisión · unidades y embarcaciones</small></span>
     <span class="ar">→</span>
   </a>
-  <div class="footSig">Los textos cargados en cada área y el registro de unidades se guardan solo en este equipo y nunca se publican. · Dashboard: CF Felipe Rifo Espósito · <a href="mailto:feliperifo@gmail.com?subject=Dashboard%20Red%20de%20Boyas%3A%20comentarios">feliperifo@gmail.com</a></div>
+  <div class="footSig">Lo publicado lo ven todos; la «vista local» y el registro de unidades quedan solo en este equipo. <a href="?editor=1" class="edOff">Modo editor</a><a href="?editor=0" class="edOn">Salir del modo editor</a> · Dashboard: CF Felipe Rifo Espósito · <a href="mailto:feliperifo@gmail.com?subject=Dashboard%20Red%20de%20Boyas%3A%20comentarios">feliperifo@gmail.com</a></div>
 </div>
 
 <!-- ============================ VISTA MAPA ============================ -->
@@ -1211,9 +1229,18 @@ svg.leaflet-image-layer.leaflet-interactive path {
 
 <div id="srModal" role="dialog" aria-modal="true" aria-labelledby="srTitle"><div class="srBox">
   <div class="srMh"><b id="srTitle">Cargar SITREP</b></div>
-  <label class="srF">Fecha y hora de recepción<input type="datetime-local" id="srFecha"></label>
+  <label class="srF">Fecha y hora del informe<input type="datetime-local" id="srFecha"></label>
   <textarea id="srTxt" spellcheck="false" placeholder="Pegue aquí el SITREP tal como lo recibió (WhatsApp, correo o mensaje naval)."></textarea>
-  <div class="srMf"><button type="button" class="act" id="srOk">Cargar en el dashboard</button><button type="button" class="act ghost" id="srCancel">Cerrar</button></div>
+  <div class="srMf"><button type="button" class="act" id="srOk">Ver en este equipo</button><button type="button" class="act" id="srPrep">Preparar publicación</button><button type="button" class="act ghost" id="srCancel">Cerrar</button></div>
+  <div id="pubBox">
+    <div class="pubH">Esto es lo que verán todos <span>(archivo <code id="pubFile"></code>)</span></div>
+    <pre id="pubPrev"></pre>
+    <ol class="pubSteps">
+      <li><button type="button" class="act" id="pubCopy">1. Copiar y abrir el editor de GitHub</button></li>
+      <li>En el editor que se abre: seleccione todo (Ctrl+A / Cmd+A) y pegue (Ctrl+V / Cmd+V).</li>
+      <li>Pulse <b>Commit changes</b> y confirme. En uno o dos minutos lo verán todos los que abran el link.</li>
+    </ol>
+  </div>
 </div></div>
 
 <script>/* @preserve
@@ -1854,14 +1881,15 @@ const ACT_COLOR = { 'Comisión': '#1f6fb2', 'Sondaje': '#0e2a47', 'En tránsito'
 
 function popupBuque(s) {
   const dot = (s.dotacion || []).filter(p => p.nombre || p.grado || p.funcion);
+  const nAbordo = s.a_bordo != null ? s.a_bordo : dot.length;
   return `<div class="pp"><div class="ppT">${escH(s.tipo)} ${escH(s.nombre)}</div><table>` +
     `<tr><th>Actividad</th><td>${escH(s.actividad)}</td></tr>` +
     (s.lat != null ? `<tr><th>Posición</th><td>${fmtPos(s.lat, s.lon)}${s.aprox ? ` <span class="aprox">aproximada · ${escH(s.lugar)}</span>` : ''}</td></tr><tr><th>Decimal</th><td>${s.lat.toFixed(5)}, ${s.lon.toFixed(5)}</td></tr>` : `<tr><th>Posición</th><td>Sin posición</td></tr>`) +
     (s.rumbo != null && s.rumbo !== '' ? `<tr><th>Rumbo</th><td>${nf(s.rumbo)}°</td></tr>` : '') +
     `<tr><th>Hora posición</th><td>${s.hora ? escH(new Date(s.hora).toLocaleString('es-CL', { timeZone: TZ, dateStyle: 'short', timeStyle: 'short' })) : '—'}</td></tr>` +
     (s.obs ? `<tr><th>Observaciones</th><td>${escH(s.obs)}</td></tr>` : '') + `</table>` +
-    `<div class="ppS">A bordo (${dot.length})</div>` +
-    (dot.length ? `<table class="crew"><tr><th>Grado</th><th>Nombre</th><th>Función</th></tr>${dot.map(p => `<tr><td>${escH(p.grado)}</td><td>${escH(p.nombre)}</td><td>${escH(p.funcion)}</td></tr>`).join('')}</table>` : '<div class="emptyNote">Sin dotación registrada.</div>') +
+    `<div class="ppS">A bordo (${nAbordo})${s.a_bordo_txt ? ' · ' + escH(s.a_bordo_txt) : ''}</div>` +
+    (s.a_bordo != null ? '' : dot.length ? `<table class="crew"><tr><th>Grado</th><th>Nombre</th><th>Función</th></tr>${dot.map(p => `<tr><td>${escH(p.grado)}</td><td>${escH(p.nombre)}</td><td>${escH(p.funcion)}</td></tr>`).join('')}</table>` : '<div class="emptyNote">Sin dotación registrada.</div>') +
     `</div>`;
 }
 function renderBuques() {
@@ -1876,7 +1904,7 @@ function renderBuques() {
   }
   const box = document.getElementById('shipList');
   box.innerHTML = BUQUES.length ? BUQUES.map(s => `<div class="sRow"><button type="button" class="sGo" data-id="${s.id}"><span class="sIc">${svgShip(ACT_COLOR[s.actividad] || '#0e2a47', 0).replace('width="34" height="34"', 'width="18" height="18"')}</span>` +
-    `<span class="bn">${escH(s.tipo === 'Unidad' ? '' : s.tipo)} ${escH(s.nombre)}${s.fuente === 'sitrep' ? ' <span class="srTag">SITREP</span>' : ''}<small>${escH(s.actividad)} · ${(s.dotacion || []).filter(p => p.nombre).length} a bordo · ${s.lat != null ? (s.aprox ? 'aprox. ' + escH(s.lugar) : fmtPos(s.lat, s.lon)) : 'sin posición'}</small></span></button>` +
+    `<span class="bn">${escH(s.tipo === 'Unidad' ? '' : s.tipo)} ${escH(s.nombre)}${s.fuente === 'sitrep' ? ' <span class="srTag">SITREP</span>' : ''}<small>${escH(s.actividad)} · ${s.a_bordo != null ? s.a_bordo : (s.dotacion || []).filter(p => p.nombre).length} a bordo · ${s.lat != null ? (s.aprox ? 'aprox. ' + escH(s.lugar) : fmtPos(s.lat, s.lon)) : 'sin posición'}</small></span></button>` +
     `<button type="button" class="sEd" data-id="${s.id}" title="Editar">✎</button><button type="button" class="sDel" data-id="${s.id}" title="Eliminar">✕</button></div>`).join('')
     : '<div class="emptyNote">No hay buques registrados.</div>';
   const nSond = BUQUES.filter(s => s.actividad === 'Sondaje').length;
@@ -1998,6 +2026,40 @@ const AREA = { est: null, per: null, not: null };  // { texto, recibido, datos }
 let SITREP = null;   // compatibilidad: verdadero si hay algún área cargada
 let SR_DECL = {};    // clave boya → estado declarado en el área 1
 
+// ---- Información publicada en el repositorio (la ven todos los que abren el link) ----
+const PUB = { est: null, per: null, not: null };
+const PUB_ARCH = { est: 'estaciones.json', per: 'personal.json', not: 'noticias.json' };
+const EDITOR = (() => { try { const q = new URLSearchParams(location.search).get('editor'); if (q === '1') localStorage.setItem('boyasSNAM.editor', '1'); if (q === '0') localStorage.removeItem('boyasSNAM.editor'); return localStorage.getItem('boyasSNAM.editor') === '1'; } catch (e) { return false; } })();
+document.body.classList.toggle('editor', EDITOR);
+function repoInfo() {
+  if (/\.github\.io$/.test(location.hostname)) return { owner: location.hostname.split('.')[0], repo: location.pathname.split('/')[1] || '' };
+  return { owner: 'feliperifo-a11y', repo: 'dashboard_operativo_shoa' };
+}
+const urlEditar = (k) => { const r = repoInfo(); return `https://github.com/${r.owner}/${r.repo}/edit/main/publicado/${PUB_ARCH[k]}`; };
+async function cargarPublicado() {
+  let cambio = false;
+  for (const k of ['est', 'per', 'not']) {
+    try {
+      const r = await fetch(`publicado/${PUB_ARCH[k]}?t=${Date.now()}`, { cache: 'no-store' });
+      if (!r.ok) continue;
+      const d = await r.json();
+      if (!d || !d.publicado) continue;
+      if (JSON.stringify(d) !== JSON.stringify(PUB[k])) { PUB[k] = d; cambio = true; }
+    } catch (e) { /* abierto como archivo local o sin publicación */ }
+  }
+  if (cambio) { SITREP = (AREA.est || AREA.per || PUB.est || PUB.per) ? true : null; SR_DECL = datosEst() ? srEstadoDeclarado(datosEst().material) : {}; srUnidades(); renderSitrep(); renderNoticias(); if (ESTADO) renderBoyasSeguro(); }
+}
+// Datos del área 1: la vista local (si existe en este equipo) prevalece sobre lo publicado
+function datosEst() {
+  if (AREA.est) return AREA.est.datos;
+  if (PUB.est && PUB.est.texto) { if (!PUB.est._datos) PUB.est._datos = parseSitrep(PUB.est.texto); return PUB.est._datos; }
+  return null;
+}
+function resumenPer() {
+  if (AREA.per) { if (!AREA.per._res) AREA.per._res = resumirPersonal(AREA.per.datos, AREA.per.recibido); return AREA.per._res; }
+  return PUB.per;
+}
+
 const AREA_INFO = {
   est: { titulo: 'Cargar estaciones (área 1)', ph: 'Pegue el bloque de material del SITREP: ESTACIONES DE NIVEL DEL MAR, BOYAS DART, BOYAS METEOCEAN, GLIDER y, si corresponde, mensajes navales.\nTambién puede pegar el SITREP completo: se toma solo lo que corresponde a estaciones.' },
   per: { titulo: 'Cargar personal (área 2)', ph: 'Pegue el personal en comisión (Oficiales, GM, Empleados Civiles, PAC), las comisiones y las embarcaciones.\nTambién puede pegar el SITREP completo: se toma solo lo que corresponde a personal.' },
@@ -2035,28 +2097,25 @@ function areaAplicar(k, s, guardar) {
   AREA[k] = s ? { texto: s.texto, recibido: s.recibido || new Date().toISOString() } : null;
   if (AREA[k]) AREA[k].datos = k === 'not' ? parseNoticias(AREA[k].texto) : parseSitrep(AREA[k].texto);
   if (guardar) areaGuardar(k);
-  SITREP = AREA.est || AREA.per ? true : null;
-  if (k === 'est') { SR_DECL = AREA.est ? srEstadoDeclarado(AREA.est.datos.material) : {}; if (ESTADO) renderBoyasSeguro(); }
+  SITREP = (AREA.est || AREA.per || PUB.est || PUB.per) ? true : null;
+  if (k === 'est') { SR_DECL = datosEst() ? srEstadoDeclarado(datosEst().material) : {}; if (ESTADO) renderBoyasSeguro(); }
   if (k === 'per') srUnidades();
   renderSitrep();
   if (k === 'not') renderNoticias();
 }
 
 // ---- Unidades a partir del personal y de "Embarcaciones" (área 2) ----
-function srUnidades() {
-  const previas = new Map(BUQUES.filter(b => b.fuente === 'sitrep').map(b => [srSinTilde(b.nombre), b]));
-  BUQUES = BUQUES.filter(b => b.fuente !== 'sitrep');
-  if (!AREA.per) { guardarBuques(); renderBuques(); return; }
-  const d = AREA.per.datos, uni = new Map();
+const CAT_PER = { 'oficiales': 'Oficial', 'gm': 'Gente de mar', 'pac': 'PAC', 'empleados civiles': 'Empleado civil' };
+function unidadesDe(d) {
+  const uni = new Map(), traslados = new Map();
   const add = (nombre) => { const k = srSinTilde(nombre); if (!uni.has(k)) uni.set(k, { nombre, dotacion: [], lugarTxt: '', notas: [] }); return uni.get(k); };
-  const CAT = { 'oficiales': 'Oficial', 'gm': 'Gente de mar', 'pac': 'PAC', 'empleados civiles': 'Empleado civil' };
   for (const c of (d.personal ? d.personal.categorias : []))
     for (const p of c.personas) {
       const dest = p.destino || '';
       const unidad = dest.split(/\s*-\s*/)[0].trim();
-      if (!unidad || /traslado/i.test(unidad)) continue;                 // traslados no son unidades
+      if (!unidad || /traslado/i.test(unidad)) { const t = dest || 'Sin destino'; traslados.set(t, (traslados.get(t) || []).concat([{ p, c }])); continue; }
       const u = add(unidad);
-      u.dotacion.push({ grado: p.grado || (c.nombre === 'PAC' ? 'PAC' : ''), nombre: p.apellido, funcion: CAT[srSinTilde(c.nombre)] || c.nombre });
+      u.dotacion.push({ grado: p.grado || (c.nombre === 'PAC' ? 'PAC' : ''), nombre: p.apellido, funcion: CAT_PER[srSinTilde(c.nombre)] || c.nombre, _cat: c.nombre });
       if (!u.lugarTxt) { const rest = dest.split(/\s*-\s*/).slice(1).join(' '); if (srLugar(rest)) u.lugarTxt = rest; }
     }
   for (const e of d.embarcaciones) { const u = add(e.k); if (e.v && !/a\s+bordo/i.test(e.v)) u.lugarTxt = e.v; else if (e.v) u.notas.push(`Embarcación ${e.v}`); }
@@ -2066,16 +2125,28 @@ function srUnidades() {
     const ult = com ? com.items.filter(i => i.kind === 'ult24').flatMap(i => [i.valor, ...i.lineas]).join(' | ') : '';
     const tr = ult.match(/tr[aá]nsito\s+hacia\s+([^|(/]+)/i);
     if (tr) { u.transito = tr[1].trim(); u.lugarTxt = ''; }
-  }
-  for (const u of uni.values()) {
-    const prev = previas.get(srSinTilde(u.nombre));
     const lug = srLugar(u.lugarTxt);
+    Object.assign(u, { lat: lug ? lug.pos[0] : null, lon: lug ? lug.pos[1] : null, aprox: !!lug, lugar: lug ? lug.nombre : '',
+      tipo: /opv/i.test(u.nombre) ? 'Buque' : 'Unidad', actividad: u.transito ? 'En tránsito' : (/levantamiento|sondaje/i.test(u.comision) ? 'Sondaje' : 'Comisión') });
+  }
+  return { unidades: [...uni.values()], traslados };
+}
+function srUnidades() {
+  const previas = new Map(BUQUES.filter(b => b.fuente === 'sitrep').map(b => [srSinTilde(b.nombre), b]));
+  BUQUES = BUQUES.filter(b => b.fuente !== 'sitrep');
+  let lista = [];
+  if (AREA.per) {
+    lista = unidadesDe(AREA.per.datos).unidades.map(u => ({ ...u, hora: AREA.per.recibido }));
+  } else if (PUB.per && PUB.per.unidades) {
+    lista = PUB.per.unidades.map(u => ({ ...u, dotacion: [], a_bordo: u.n, a_bordo_txt: resumenUnidad(u), hora: PUB.per.publicado }));
+  }
+  for (const u of lista) {
+    const prev = previas.get(srSinTilde(u.nombre));
     const reg = {
-      id: prev ? prev.id : 's' + Math.random().toString(36).slice(2, 9), fuente: 'sitrep', nombre: u.nombre,
-      tipo: /opv/i.test(u.nombre) ? 'Buque' : 'Unidad', actividad: u.transito ? 'En tránsito' : (/levantamiento|sondaje/i.test(u.comision) ? 'Sondaje' : 'Comisión'),
-      lat: lug ? lug.pos[0] : null, lon: lug ? lug.pos[1] : null, aprox: !!lug, lugar: lug ? lug.nombre : '',
-      rumbo: null, hora: AREA.per.recibido, dotacion: u.dotacion,
-      obs: [u.comision && `Comisión: ${u.comision}`, u.transito && `En tránsito hacia ${u.transito}`, ...u.notas].filter(Boolean).join(' · '),
+      id: prev ? prev.id : 's' + Math.random().toString(36).slice(2, 9), fuente: 'sitrep', nombre: u.nombre, tipo: u.tipo, actividad: u.actividad,
+      lat: u.lat, lon: u.lon, aprox: u.aprox, lugar: u.lugar, rumbo: null, hora: u.hora, dotacion: u.dotacion || [],
+      a_bordo: u.a_bordo, a_bordo_txt: u.a_bordo_txt,
+      obs: [u.comision && `Comisión: ${u.comision}`, u.transito && `En tránsito hacia ${u.transito}`, ...(u.notas || [])].filter(Boolean).join(' · '),
     };
     if (prev && prev.manual) Object.assign(reg, { lat: prev.lat, lon: prev.lon, aprox: false, lugar: '', rumbo: prev.rumbo, manual: true, hora: prev.hora });
     BUQUES.push(reg);
@@ -2083,11 +2154,57 @@ function srUnidades() {
   guardarBuques(); renderBuques();
 }
 
+// ---- Resumen de personal SIN NOMBRES (lo que se publica) ----
+const GRADOS_OF = ['CN', 'CF', 'CC', 'T1', 'T2', 'ST'];
+const GRADOS_GM = ['SO', 'S1', 'S2', 'C1', 'C2', 'M1'];
+function catDe(grado, catTxt) {
+  const g = (grado || '').toUpperCase(), c = srSinTilde(catTxt || '');
+  if (/^pac/.test(c)) return 'pac';
+  if (/emplead|civil|^ec$/.test(c)) return 'ec';
+  if (GRADOS_OF.includes(g) || /oficial/.test(c)) return 'of';
+  return 'gm';
+}
+function resumirPersonal(d, recibido) {
+  const res = { tipo: 'personal', version: 1, publicado: recibido || new Date().toISOString(), total: null,
+    oficiales: { total: 0, grados: Object.fromEntries(GRADOS_OF.map(g => [g, 0])) }, gm: { total: 0, grados: Object.fromEntries(GRADOS_GM.map(g => [g, 0])) },
+    ec: 0, pac: 0, unidades: [], traslados: [], comisiones: [], embarcaciones: d.embarcaciones || [], instrumental: d.instrumental || '',
+    logistica: d.logistica || [], difusiones: d.difusiones || '', otras: d.otras || '', coherencia: [] };
+  const declarado = { of: null, gm: null, ec: null, pac: null };
+  if (d.personal) {
+    res.total = d.personal.total;
+    for (const c of d.personal.categorias) {
+      const kc = catDe('', c.nombre); declarado[kc] = (declarado[kc] || 0) + c.n;
+      for (const p of c.personas) {
+        const k = catDe(p.grado, c.nombre), g = (p.grado || '').toUpperCase();
+        if (k === 'of') { res.oficiales.total++; res.oficiales.grados[g] = (res.oficiales.grados[g] || 0) + 1; }
+        else if (k === 'gm') { res.gm.total++; res.gm.grados[g || 'Otro'] = (res.gm.grados[g || 'Otro'] || 0) + 1; }
+        else if (k === 'ec') res.ec++; else res.pac++;
+      }
+    }
+    // si se declara una cantidad sin listar personas (p. ej. "Empleados Civiles: 00"), se respeta lo declarado
+    if (declarado.ec != null && declarado.ec > res.ec) res.ec = declarado.ec;
+    if (declarado.pac != null && declarado.pac > res.pac) res.pac = declarado.pac;
+    if (res.total == null) res.total = res.oficiales.total + res.gm.total + res.ec + res.pac;
+    const { unidades, traslados } = unidadesDe(d);
+    res.unidades = unidades.map(u => {
+      const cnt = { of: 0, gm: 0, ec: 0, pac: 0 }; for (const x of u.dotacion) cnt[catDe(x.grado, x._cat)]++;
+      return { nombre: u.nombre, n: u.dotacion.length, ...cnt, tipo: u.tipo, actividad: u.actividad, comision: u.comision || '', transito: u.transito || '', lugar: u.lugar, lat: u.lat, lon: u.lon, aprox: u.aprox, notas: u.notas || [] };
+    });
+    res.traslados = [...traslados].map(([destino, xs]) => ({ destino, n: xs.length }));
+  } else {
+    res.unidades = unidadesDe(d).unidades.map(u => ({ nombre: u.nombre, n: 0, of: 0, gm: 0, ec: 0, pac: 0, tipo: u.tipo, actividad: u.actividad, comision: u.comision || '', transito: u.transito || '', lugar: u.lugar, lat: u.lat, lon: u.lon, aprox: u.aprox, notas: u.notas || [] }));
+  }
+  res.comisiones = (d.comisiones || []).map(c => ({ nombre: c.nombre, avance: c.avance, avance_total: c.avance_total, items: c.items.map(i => ({ label: i.label, kind: i.kind, valor: i.valor, lineas: i.lineas })) }));
+  const prev = AREA.per; AREA.per = { datos: d }; res.coherencia = chequeosPersonal(); AREA.per = prev;
+  return res;
+}
+function resumenUnidad(u) { return [u.of && `${u.of} Of.`, u.gm && `${u.gm} GM`, u.ec && `${u.ec} EC`, u.pac && `${u.pac} PAC`].filter(Boolean).join(' · '); }
+
 // ---- Contraste del área 1 con el monitor ----
 const SR_ESTADO_TXT = { siniestrada: 'siniestrada', no_instalada: 'no instalada', no_operativa: 'no operativa' };
 function chequeosEstaciones() {
   const out = [];
-  const d = AREA.est ? AREA.est.datos : null;
+  const d = datosEst();
   if (d) {
     for (const [k, b] of Object.entries(d.material_inicio || {})) {   // resumen inicial vs sección Material
       const m = d.material[k]; if (!m || d.material_inicio === d.material) continue;
@@ -2153,20 +2270,22 @@ function srBar(k, v) { return `<div class="srBar"><span>${srE(k)}</span><i><em s
 const chkHTML = (chk) => `<ul class="srChk">${chk.map(c => `<li class="${c.t}"${c.k ? ` data-k="${c.k}"` : ''}>${srE(c.x)}</li>`).join('')}</ul>`;
 function sello(k) {
   const el = document.getElementById('sello_' + k); if (!el) return;
-  el.textContent = AREA[k] ? `Cargado ${fmtLocal(new Date(AREA[k].recibido))}` : 'Sin cargar';
-  el.classList.toggle('vacio', !AREA[k]);
+  if (AREA[k]) { el.textContent = `Vista local ${fmtLocal(new Date(AREA[k].recibido))} · solo este equipo`; el.className = 'sello local'; }
+  else if (PUB[k]) { el.textContent = `Publicado ${fmtLocal(new Date(PUB[k].publicado))}`; el.className = 'sello'; }
+  else { el.textContent = 'Sin publicar'; el.className = 'sello vacio'; }
 }
 
 // ---- Área 1: estaciones ----
 function renderEstaciones() {
   const box = document.getElementById('srMat'), fin = document.getElementById('srContraste');
   sello('est');
-  if (!AREA.est) {
-    box.innerHTML = `<div class="emptyNote">Sin informe de estaciones cargado: se muestra solo lo que recibe el monitor. Use «Cargar» para pegar el bloque de material.</div>`;
+  const d = datosEst();
+  if (!d) {
+    box.innerHTML = `<div class="emptyNote">Aún no hay informe de estaciones publicado: se muestra solo lo que recibe el monitor.</div>`;
     fin.innerHTML = '';
     return;
   }
-  const d = AREA.est.datos, M = d.material;
+  const M = d.material;
   let h = `<div class="srGrid">${srTile(M.nivel)}${srTile(M.dart)}${srTile(M.meteocean)}${srTile(M.glider)}</div>`;
   const det = ['dart', 'meteocean'].flatMap(k => (M[k] ? M[k].detalle : []));
   if (det.length) h += `<ul class="srDet">${det.map(x => `<li>${srE(x)}</li>`).join('')}</ul>`;
@@ -2177,36 +2296,36 @@ function renderEstaciones() {
   fin.querySelectorAll('.srChk li[data-k]').forEach(li => li.addEventListener('click', () => verBoya(li.dataset.k)));
 }
 
-// ---- Área 2: personal ----
+// ---- Área 2: personal (siempre sin nombres: lo mismo que se publica) ----
+function gradosHTML(obj, orden) {
+  const extra = Object.keys(obj).filter(g => !orden.includes(g) && obj[g]);
+  return [...orden, ...extra].map(g => `<span class="gr${obj[g] ? '' : ' cero'}"><em>${srE(g)}</em><b>${obj[g] || 0}</b></span>`).join('');
+}
 function renderPersonal() {
   const pers = document.getElementById('srPers');
   sello('per');
-  if (!AREA.per) { pers.innerHTML = `<div class="emptyNote">Sin personal cargado. Use «Cargar» para pegar el personal en comisión, las comisiones y las embarcaciones.</div>`; return; }
-  const d = AREA.per.datos;
-  let p = '';
-  if (d.personal) {
-    p += `<div class="persTop"><div class="persTot"><b>${d.personal.total ?? '—'}</b><span>en comisión</span></div>` +
-      `<div class="srCats">${d.personal.categorias.map(c => `<span>${srE(c.nombre)} <b>${c.n}</b></span>`).join('')}</div></div>`;
-    const grupos = new Map();
-    for (const c of d.personal.categorias) for (const x of c.personas) {
-      const unidad = (x.destino || 'Sin destino').split(/\s*-\s*/)[0].trim();
-      const key = /traslado/i.test(unidad) ? x.destino : unidad;
-      if (!grupos.has(key)) grupos.set(key, { nombre: key, personas: [] });
-      grupos.get(key).personas.push(`${x.grado ? x.grado + ' ' : (c.nombre === 'PAC' ? 'PAC ' : '')}${x.apellido}`);
+  const r = resumenPer();
+  if (!r) { pers.innerHTML = `<div class="emptyNote">Aún no hay personal publicado.</div>`; return; }
+  let p = `<div class="persTop"><div class="persTot"><b>${r.total ?? '—'}</b><span>en comisión</span></div>` +
+    `<div class="srCats"><span>Oficiales <b>${r.oficiales.total}</b></span><span>Gente de mar <b>${r.gm.total}</b></span><span>EC <b>${r.ec}</b></span><span>PAC <b>${r.pac}</b></span></div></div>`;
+  p += `<div class="grTab"><div class="grRow"><span class="grL">Oficiales</span><div class="grs">${gradosHTML(r.oficiales.grados, GRADOS_OF)}</div></div>` +
+    `<div class="grRow"><span class="grL">Gente de mar</span><div class="grs">${gradosHTML(r.gm.grados, GRADOS_GM)}</div></div>` +
+    `<div class="grRow"><span class="grL">Empleados civiles</span><div class="grs"><span class="gr${r.ec ? '' : ' cero'}"><em>EC</em><b>${r.ec}</b></span></div></div>` +
+    `<div class="grRow"><span class="grL">PAC</span><div class="grs"><span class="gr${r.pac ? '' : ' cero'}"><em>PAC</em><b>${r.pac}</b></span></div></div></div>`;
+  if (r.unidades.length || r.traslados.length) {
+    p += '<h3 class="subH">Despliegue por unidad</h3><div class="units">';
+    for (const u of r.unidades) {
+      const b = BUQUES.find(x => x.fuente === 'sitrep' && srSinTilde(x.nombre) === srSinTilde(u.nombre));
+      const donde = u.transito ? `En tránsito hacia ${u.transito}` : (u.lat != null ? (u.aprox ? `${u.lugar} (aprox.)` : fmtPos(u.lat, u.lon)) : (u.notas && u.notas.length ? u.notas.join(' · ') : 'Sin posición'));
+      p += `<div class="unit"><div class="uh"><b>${srE(u.nombre)}</b>${u.n ? `<span class="uc">${u.n}</span>` : ''}` +
+        (b && b.lat != null ? `<button type="button" class="uMap" data-id="${b.id}">ver en mapa</button>` : '') + `</div>` +
+        `<div class="ud">${[u.comision && srE(u.comision), srE(donde)].filter(Boolean).join(' · ')}</div>` +
+        (u.n ? `<div class="up">${srE(resumenUnidad(u))}</div>` : '') + `</div>`;
     }
-    p += '<div class="units">';
-    for (const g of grupos.values()) {
-      const u = BUQUES.find(b => srSinTilde(b.nombre) === srSinTilde(g.nombre));
-      const donde = u ? (u.obs && /tránsito/i.test(u.obs) ? u.obs.split(' · ').find(x => /tránsito/i.test(x)) : (u.lat != null ? (u.aprox ? u.lugar + ' (aprox.)' : fmtPos(u.lat, u.lon)) : 'Sin posición')) : '';
-      const com = u && u.obs ? (u.obs.split(' · ').find(x => /^Comisión/.test(x)) || '').replace('Comisión: ', '') : '';
-      p += `<div class="unit"><div class="uh"><b>${srE(g.nombre)}</b><span class="uc">${g.personas.length}</span>` +
-        (u && u.lat != null ? `<button type="button" class="uMap" data-id="${u.id}">ver en mapa</button>` : '') + `</div>` +
-        ((donde || com) ? `<div class="ud">${[com && srE(com), donde && srE(donde)].filter(Boolean).join(' · ')}</div>` : '') +
-        `<div class="up">${g.personas.map(srE).join(' · ')}</div></div>`;
-    }
+    for (const t of r.traslados) p += `<div class="unit"><div class="uh"><b>${srE(t.destino)}</b><span class="uc">${t.n}</span></div></div>`;
     p += '</div>';
   }
-  for (const c of d.comisiones) {
+  for (const c of r.comisiones) {
     const tot = c.avance_total;
     p += `<details class="srSec srCom" open><summary>${srE(c.nombre)}${tot != null ? `<span class="srN">${nf(tot, tot % 1 ? 1 : 0)} %</span>` : ''}</summary>`;
     if (tot != null) p += srBar('Avance total', tot);
@@ -2219,14 +2338,12 @@ function renderPersonal() {
     p += `</details>`;
   }
   const filas = [
-    ['Embarcaciones', d.embarcaciones.map(e => `${srE(e.k)}: ${srE(e.v)}`).join(' · ')],
-    ['Instrumental instalado', srE(d.instrumental)], ['Niveles logísticos', d.logistica.map(e => srE(e.k ? `${e.k}: ${e.v}` : e.v)).join(' · ')],
-    ['Difusiones', srE(d.difusiones)], ['Otras novedades', srE(d.otras)],
+    ['Embarcaciones', r.embarcaciones.map(e => `${srE(e.k)}: ${srE(e.v)}`).join(' · ')],
+    ['Instrumental instalado', srE(r.instrumental)], ['Niveles logísticos', r.logistica.map(e => srE(e.k ? `${e.k}: ${e.v}` : e.v)).join(' · ')],
+    ['Difusiones', srE(r.difusiones)], ['Otras novedades', srE(r.otras)],
   ].filter(([, v]) => v);
   if (filas.length) p += `<table class="srTab">${filas.map(([k, v]) => `<tr><th>${k}</th><td>${v}</td></tr>`).join('')}</table>`;
-  const chk = chequeosPersonal();
-  if (chk.length) p += `<h3 class="subH">Coherencia del informe</h3>${chkHTML(chk)}`;
-  if (!p) p = `<div class="emptyNote">El texto cargado no contiene personal, comisiones ni embarcaciones reconocibles. Revíselo con «Ver texto».</div>`;
+  if (r.coherencia && r.coherencia.length) p += `<h3 class="subH">Coherencia del informe</h3>${chkHTML(r.coherencia)}`;
   pers.innerHTML = p;
   pers.querySelectorAll('.uMap').forEach(b => b.addEventListener('click', () => verUnidad(b.dataset.id)));
 }
@@ -2234,40 +2351,91 @@ function renderPersonal() {
 function renderSitrep() { renderEstaciones(); renderPersonal(); sello('not'); }
 
 // Noticias propias (área 3), antes de las de la portada
+function noticiasPropias() { return AREA.not ? AREA.not.datos : (PUB.not && PUB.not.items) || []; }
 function noticiasPropiasHTML() {
-  if (!AREA.not || !AREA.not.datos.length) return '';
-  return `<div class="legSub">Cargadas en este equipo</div>` + AREA.not.datos.map(n =>
+  const ns = noticiasPropias(); if (!ns.length) return '';
+  return `<div class="legSub">${AREA.not ? 'Vista local (solo este equipo)' : 'Publicadas'}</div>` + ns.map(n =>
     `<${n.url ? `a href="${escH(n.url)}" target="_blank" rel="noopener"` : 'div'} class="nItem own"><span><b>${escH(n.titulo)}</b>${n.resumen ? `<small>${escH(n.resumen)}</small>` : ''}</span></${n.url ? 'a' : 'div'}>`).join('') +
     `<div class="legSub" style="margin-top:12px">Portada del sitio</div>`;
 }
 
-// ---- Ventana para pegar el texto de un área ----
-let areaModal = null;
-function areaAbrir(k, verSolo) {
-  areaModal = k;
+// ---- Ventana para pegar el texto de un área (vista local o publicación) ----
+let areaModal = null, modoModal = 'local', pubJSON = '';
+function construirPublicacion(k, texto, fecha) {
+  if (k === 'est') {
+    const d = parseSitrep(texto), M = d.material, ls = [];
+    const nombres = { nivel: 'ESTACIONES DE NIVEL DEL MAR', dart: 'BOYAS DART', meteocean: 'BOYAS METEOCEAN', glider: 'GLIDER' };
+    for (const key of ['nivel', 'dart', 'meteocean', 'glider']) {
+      const b = M[key]; if (!b) continue;
+      ls.push(nombres[key] + ':');
+      if (b.fe != null) ls.push(`F/E: ${b.fe}`);
+      if (b.no != null) ls.push(`No operativas: ${b.no}`);
+      for (const t of b.texto) ls.push(t);
+      for (const x of b.detalle) ls.push(x);
+      ls.push('');
+    }
+    if (d.mensajes) ls.push(`6.- Mensajes navales: ${d.mensajes}`);
+    return { tipo: 'estaciones', version: 1, publicado: fecha, texto: ls.join('\n').trim() };
+  }
+  if (k === 'per') { const r = resumirPersonal(parseSitrep(texto), fecha); r.publicado = fecha; return r; }
+  return { tipo: 'noticias', version: 1, publicado: fecha, items: parseNoticias(texto) };
+}
+function vistaPrevia(k, obj) {
+  if (k === 'est') return obj.texto;
+  if (k === 'per') {
+    const g = (o) => Object.entries(o).filter(([, v]) => v).map(([a, v]) => `${a} ${v}`).join(', ') || '—';
+    return [`Total en comisión: ${obj.total}`, `Oficiales ${obj.oficiales.total}: ${g(obj.oficiales.grados)}`, `Gente de mar ${obj.gm.total}: ${g(obj.gm.grados)}`, `EC: ${obj.ec} · PAC: ${obj.pac}`, '',
+      'Unidades:', ...obj.unidades.map(u => `· ${u.nombre}: ${u.n} (${resumenUnidad(u) || '—'})${u.transito ? ' · en tránsito hacia ' + u.transito : u.lugar ? ' · ' + u.lugar + (u.aprox ? ' (aprox.)' : '') : ''}`),
+      ...obj.traslados.map(t => `· ${t.destino}: ${t.n}`), '', `Comisiones: ${obj.comisiones.map(c => c.nombre).join(' · ') || '—'}`, '', 'No se publican nombres ni apellidos.'].join('\n');
+  }
+  return obj.items.map(n => `• ${n.titulo}${n.url ? ' (' + n.url + ')' : ''}`).join('\n') || '—';
+}
+function areaAbrir(k, modo) {
+  areaModal = k; modoModal = modo;
   const ov = document.getElementById('srModal');
-  document.getElementById('srTxt').value = AREA[k] ? AREA[k].texto : '';
+  const fuente = AREA[k] ? AREA[k].texto : '';
+  document.getElementById('srTxt').value = modo === 'ver' ? (AREA[k] ? AREA[k].texto : (PUB[k] ? vistaPrevia(k, PUB[k]) : '')) : fuente;
   document.getElementById('srTxt').placeholder = AREA_INFO[k].ph;
   const r = AREA[k] ? new Date(AREA[k].recibido) : new Date();
   document.getElementById('srFecha').value = new Date(r.getTime() - r.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
-  document.getElementById('srTxt').readOnly = !!verSolo;
-  document.getElementById('srOk').style.display = verSolo ? 'none' : '';
-  document.getElementById('srTitle').textContent = verSolo ? AREA_INFO[k].titulo.replace('Cargar', 'Texto cargado:') : AREA_INFO[k].titulo;
-  ov.classList.add('open'); if (!verSolo) document.getElementById('srTxt').focus();
+  document.getElementById('srTxt').readOnly = modo === 'ver';
+  document.getElementById('srOk').style.display = modo === 'local' ? '' : 'none';
+  document.getElementById('srPrep').style.display = modo === 'publicar' ? '' : 'none';
+  document.getElementById('pubBox').classList.remove('on');
+  const t = { local: AREA_INFO[k].titulo.replace('Cargar', 'Vista local:'), publicar: AREA_INFO[k].titulo.replace('Cargar', 'Publicar para todos:'), ver: 'Texto de esta área' }[modo];
+  document.getElementById('srTitle').textContent = t;
+  ov.classList.add('open'); if (modo !== 'ver') document.getElementById('srTxt').focus();
 }
-document.getElementById('srCancel').onclick = () => document.getElementById('srModal').classList.remove('open');
-document.getElementById('srModal').addEventListener('click', e => { if (e.target.id === 'srModal') e.target.classList.remove('open'); });
+const cerrarModal = () => document.getElementById('srModal').classList.remove('open');
+document.getElementById('srCancel').onclick = cerrarModal;
+document.getElementById('srModal').addEventListener('click', e => { if (e.target.id === 'srModal') cerrarModal(); });
+const fechaModal = () => { const f = document.getElementById('srFecha').value; return f ? new Date(f).toISOString() : new Date().toISOString(); };
 document.getElementById('srOk').onclick = () => {
   const texto = document.getElementById('srTxt').value.trim(); if (!texto || !areaModal) return;
-  const f = document.getElementById('srFecha').value;
-  areaAplicar(areaModal, { texto, recibido: f ? new Date(f).toISOString() : new Date().toISOString() }, true);
-  document.getElementById('srModal').classList.remove('open');
+  areaAplicar(areaModal, { texto, recibido: fechaModal() }, true); cerrarModal();
+};
+document.getElementById('srPrep').onclick = () => {
+  const texto = document.getElementById('srTxt').value.trim(); if (!texto || !areaModal) return;
+  const obj = construirPublicacion(areaModal, texto, fechaModal());
+  pubJSON = JSON.stringify(obj, null, 1);
+  document.getElementById('pubPrev').textContent = vistaPrevia(areaModal, obj);
+  document.getElementById('pubFile').textContent = 'publicado/' + PUB_ARCH[areaModal];
+  document.getElementById('pubBox').classList.add('on');
+};
+document.getElementById('pubCopy').onclick = async () => {
+  const b = document.getElementById('pubCopy');
+  try { await navigator.clipboard.writeText(pubJSON); }
+  catch (e) { const ta = document.createElement('textarea'); ta.value = pubJSON; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); } catch (x) {} ta.remove(); }
+  b.textContent = '✓ Copiado';
+  window.open(urlEditar(areaModal), '_blank', 'noopener');
+  setTimeout(() => b.textContent = '1. Copiar y abrir el editor de GitHub', 2500);
 };
 document.querySelectorAll('[data-area]').forEach(btn => btn.addEventListener('click', () => {
   const k = btn.dataset.area, acc = btn.dataset.acc;
-  if (acc === 'cargar') areaAbrir(k, false);
-  else if (acc === 'ver') areaAbrir(k, !!AREA[k]);
-  else if (acc === 'quitar' && AREA[k] && confirm('¿Quitar el texto cargado en esta área en este equipo?')) areaAplicar(k, null, true);
+  if (acc === 'publicar') areaAbrir(k, 'publicar');
+  else if (acc === 'cargar') areaAbrir(k, 'local');
+  else if (acc === 'ver') areaAbrir(k, 'ver');
+  else if (acc === 'quitar' && AREA[k] && confirm('¿Quitar la vista local de esta área? Se volverá a mostrar lo publicado.')) areaAplicar(k, null, true);
 }));
 
 (function areasInit() {
@@ -2280,6 +2448,8 @@ document.querySelectorAll('[data-area]').forEach(btn => btn.addEventListener('cl
   }
   if (viejo) { for (const k of ['est', 'per']) if (AREA[k]) areaGuardar(k); try { localStorage.removeItem(LS_SITREP_OLD); } catch (e) {} }
   renderSitrep();
+  cargarPublicado();
+  setInterval(cargarPublicado, 5 * 60e3);
 })();
 
 </script>

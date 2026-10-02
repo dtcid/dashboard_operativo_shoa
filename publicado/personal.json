@@ -1,0 +1,316 @@
+{
+ "tipo": "personal",
+ "version": 1,
+ "publicado": "2026-10-02T19:56:00.000Z",
+ "total": 17,
+ "oficiales": {
+  "total": 3,
+  "grados": {
+   "CN": 0,
+   "CF": 1,
+   "CC": 2,
+   "T1": 0,
+   "T2": 0,
+   "ST": 0
+  }
+ },
+ "gm": {
+  "total": 13,
+  "grados": {
+   "SO": 0,
+   "S1": 0,
+   "S2": 1,
+   "C1": 4,
+   "C2": 4,
+   "M1": 4
+  }
+ },
+ "ec": 0,
+ "pac": 1,
+ "unidades": [
+  {
+   "nombre": "OPV Pardo",
+   "n": 4,
+   "of": 1,
+   "gm": 3,
+   "ec": 0,
+   "pac": 0,
+   "tipo": "Buque",
+   "actividad": "Comisión",
+   "comision": "",
+   "transito": "",
+   "lugar": "Talcahuano",
+   "lat": -36.7,
+   "lon": -73.105,
+   "aprox": true,
+   "notas": []
+  },
+  {
+   "nombre": "Pelure",
+   "n": 5,
+   "of": 1,
+   "gm": 4,
+   "ec": 0,
+   "pac": 0,
+   "tipo": "Unidad",
+   "actividad": "Sondaje",
+   "comision": "levantamiento PELURE",
+   "transito": "",
+   "lugar": "Chungungo",
+   "lat": -29.42,
+   "lon": -71.32,
+   "aprox": true,
+   "notas": []
+  },
+  {
+   "nombre": "Cabrales",
+   "n": 7,
+   "of": 1,
+   "gm": 5,
+   "ec": 0,
+   "pac": 1,
+   "tipo": "Unidad",
+   "actividad": "En tránsito",
+   "comision": "Cabrales-Punta Arenas",
+   "transito": "Arop - Bahía Cook",
+   "lugar": "",
+   "lat": null,
+   "lon": null,
+   "aprox": false,
+   "notas": []
+  },
+  {
+   "nombre": "Orca",
+   "n": 0,
+   "of": 0,
+   "gm": 0,
+   "ec": 0,
+   "pac": 0,
+   "tipo": "Unidad",
+   "actividad": "Comisión",
+   "comision": "",
+   "transito": "",
+   "lugar": "Caleta Higuerillas",
+   "lat": -32.926,
+   "lon": -71.546,
+   "aprox": true,
+   "notas": []
+  },
+  {
+   "nombre": "Vaikava",
+   "n": 0,
+   "of": 0,
+   "gm": 0,
+   "ec": 0,
+   "pac": 0,
+   "tipo": "Unidad",
+   "actividad": "Comisión",
+   "comision": "",
+   "transito": "",
+   "lugar": "",
+   "lat": null,
+   "lon": null,
+   "aprox": false,
+   "notas": [
+    "Embarcación a bordo"
+   ]
+  }
+ ],
+ "traslados": [
+  {
+   "destino": "traslado personal a Talcahuano",
+   "n": 1
+  }
+ ],
+ "comisiones": [
+  {
+   "nombre": "levantamiento PELURE",
+   "avance": [
+    {
+     "k": "Batimétricos",
+     "v": 46.4
+    },
+    {
+     "k": "Fotogramétricos",
+     "v": 40
+    },
+    {
+     "k": "Geodésicos",
+     "v": 100
+    }
+   ],
+   "avance_total": 50.8,
+   "items": [
+    {
+     "label": "Personal",
+     "kind": "personal",
+     "valor": "S/N",
+     "lineas": []
+    },
+    {
+     "label": "Material",
+     "kind": "material",
+     "valor": "S/N",
+     "lineas": []
+    },
+    {
+     "label": "Últimas 24 hrs",
+     "kind": "ult24",
+     "valor": "",
+     "lineas": [
+      "A. Pta.Choros / continuar trabajos batimétricos (B1: 6%).",
+      "B. Traslado G.H. a Pta. Choros."
+     ]
+    },
+    {
+     "label": "Próximas 24 hrs",
+     "kind": "prox24",
+     "valor": "",
+     "lineas": [
+      "A. Pta. Choros / continuar trabajos batimétricos.",
+      "B. Continuar mediciones GNSS."
+     ]
+    },
+    {
+     "label": "Estado avance requerimientos / general",
+     "kind": "avance_req",
+     "valor": "",
+     "lineas": [
+      "A. Batimétricos: 46,4%",
+      "B. Fotogramétricos: 40%",
+      "C. Geodésicos: 100%"
+     ]
+    },
+    {
+     "label": "Estado avance total",
+     "kind": "avance_total",
+     "valor": "50,8%",
+     "lineas": []
+    },
+    {
+     "label": "Comentarios Jefe de grupo",
+     "kind": "comentarios",
+     "valor": "",
+     "lineas": [
+      "– Mantengo el monitoreo del frente meteorológico entre OCT 2 y 5.",
+      "– Con el propósito de contar con un mayor número de fuentes de información para el monitoreo y toma de decisiones, coordine con CENMETEOVALP y a contar de SEP 29, me enviarán pronóstico dedicado para punta de Choros.",
+      "– Condiciones meteorológicas y estado de mar dentro de parámetros seguros de operación para efectuar el sondaje, con resultados positivos."
+     ]
+    }
+   ]
+  },
+  {
+   "nombre": "Cabrales-Punta Arenas",
+   "avance": [],
+   "avance_total": 0,
+   "items": [
+    {
+     "label": "Personal",
+     "kind": "personal",
+     "valor": "S/N",
+     "lineas": []
+    },
+    {
+     "label": "Material",
+     "kind": "material",
+     "valor": "S/N",
+     "lineas": []
+    },
+    {
+     "label": "Ultimas 24 hrs",
+     "kind": "ult24",
+     "valor": "",
+     "lineas": [
+      "A. Zarpe para tránsito hacia Arop - Bahía Cook",
+      "B. Entrenamiento Interno (incendio alta carga termica sala de máquinas/Emermar"
+     ]
+    },
+    {
+     "label": "Próximas 24 hrs",
+     "kind": "prox24",
+     "valor": "",
+     "lineas": [
+      "A. Instalación Mareógrafo Bahía Cook",
+      "B. Calibración LH Albatros",
+      "C. Sondaje Area Bahía Cook"
+     ]
+    },
+    {
+     "label": "Avance de la Comisión",
+     "kind": "avance_total",
+     "valor": "0%",
+     "lineas": []
+    }
+   ]
+  },
+  {
+   "nombre": "Retiro BPR Constitución",
+   "avance": [],
+   "avance_total": null,
+   "items": [
+    {
+     "label": "Personal",
+     "kind": "personal",
+     "valor": "S/N",
+     "lineas": []
+    },
+    {
+     "label": "Material",
+     "kind": "otro",
+     "valor": "S/N",
+     "lineas": []
+    },
+    {
+     "label": "Ultimas 24 hrs",
+     "kind": "ult24",
+     "valor": "",
+     "lineas": [
+      "Recuperacion del BPR Constitución conforme"
+     ]
+    },
+    {
+     "label": "Proximas 24 hrs",
+     "kind": "prox24",
+     "valor": "",
+     "lineas": [
+      "A. Se efectuará desembarco de instrumental boyas y mesa de fibra BPR, desde unidad hasta Talcabas.",
+      "B. Traslado de grupo a Valparaíso"
+     ]
+    }
+   ]
+  }
+ ],
+ "embarcaciones": [
+  {
+   "k": "Orca",
+   "v": "Caleta Higuerillas"
+  },
+  {
+   "k": "Vaikava",
+   "v": "a bordo"
+  },
+  {
+   "k": "Pelure",
+   "v": "Chungungo"
+  }
+ ],
+ "instrumental": "No hay",
+ "logistica": [
+  {
+   "k": "",
+   "v": "Combustible S/N"
+  },
+  {
+   "k": "",
+   "v": "Víveres S/N"
+  }
+ ],
+ "difusiones": "No hay",
+ "otras": "No hay",
+ "coherencia": [
+  {
+   "t": "info",
+   "x": "levantamiento PELURE: el avance total (50,8 %) no es el promedio simple de sus componentes (62,1 %); se entiende que usa ponderaciones."
+  }
+ ]
+}

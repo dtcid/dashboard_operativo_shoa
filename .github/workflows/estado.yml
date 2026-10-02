@@ -38,6 +38,7 @@ jobs:
         run: |
           mkdir -p _site
           cp index.html _site/
+          cp -r publicado _site/ 2>/dev/null || true   # informes publicados (estaciones, personal sin nombres, noticias)
           # Recupera el estado anterior para conservar las noticias si la fuente falla
           REPO="${GITHUB_REPOSITORY#*/}"
           curl -fsSL --max-time 20 "https://${GITHUB_REPOSITORY_OWNER,,}.github.io/${REPO}/estado.json" -o _site/estado.json || true

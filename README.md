@@ -53,19 +53,26 @@ El registro de buques, posiciones y dotaciones **se guarda solo en el navegador 
 
 La posición se puede escribir en grados y minutos (`36°42.50′S`, `073°07.20′W`), en decimal (`-36.7083`) o marcar con un clic en el mapa.
 
-## Carga de información por área
+## Publicar información para todos
 
-Cada área del resumen tiene sus propios botones **Cargar**, **Ver texto** y **Quitar**, y muestra cuándo se cargó:
+Lo que ven todos los que abren el link está en la carpeta `publicado/`:
 
-1. **Estaciones · operatividad**: se pega el bloque de material del SITREP (nivel del mar, DART, meteoceánicas, glider) y, si corresponde, los mensajes navales. Al final del área aparece el **contraste informe ↔ monitor**: diferencias entre el resumen inicial y la sección Material, conteos que no cuadran y boyas cuyo estado declarado no coincide con lo que el monitor recibe. Un clic en una observación lleva a la boya en el mapa.
-2. **Personal en comisión**: se pega el personal (Oficiales, GM, Empleados Civiles, PAC), las comisiones y las embarcaciones. Las unidades pasan al mapa con su dotación; si el lugar es conocido (Talcahuano, Chungungo, Punta de Choros, Caleta Higuerillas, Punta Arenas, Bahía Cook, Valparaíso) se ubican en una **posición aproximada** marcada como tal, que se corrige con ✎ en el mapa.
-3. **Noticias**: se pegan noticias propias, separadas por una línea en blanco (primera línea, título). Aparecen antes de las de la portada que trae el colector.
+| Archivo | Área | Contenido |
+|---|---|---|
+| `publicado/estaciones.json` | 1. Estaciones | Material del SITREP (nivel del mar, DART, meteoceánicas, glider) y mensajes navales. |
+| `publicado/personal.json` | 2. Personal | **Solo cifras, sin nombres**: total, oficiales por grado (CN, CF, CC, T1, T2, ST), gente de mar por grado (SO, S1, S2, C1, C2, M1), EC y PAC; despliegue por unidad, comisiones, embarcaciones y novedades. |
+| `publicado/noticias.json` | 3. Noticias | Noticias propias, además de las de la portada. |
 
-En cualquiera de las dos primeras áreas también se puede pegar el SITREP completo: cada una toma solo lo que le corresponde.
+**Cómo publicar** (solo quien tiene permiso de escritura en el repositorio):
 
-En pantallas anchas, cada área se desplaza por separado y las otras dos quedan fijas.
+1. Abrir el dashboard en **modo editor**: agregar `?editor=1` a la dirección, o usar el enlace «Modo editor» al pie. Queda recordado en ese equipo.
+2. En el área correspondiente, pulsar **Publicar**, pegar el texto (sirve el SITREP completo) y pulsar **Preparar publicación**. Se muestra exactamente lo que verán todos. En el área 2, los nombres se eliminan antes de este paso.
+3. Pulsar **Copiar y abrir el editor de GitHub**. En el editor: seleccionar todo, pegar y **Commit changes**.
+4. En uno o dos minutos el sitio se actualiza para todos.
 
-Los textos cargados y el registro de unidades **se guardan solo en el navegador de cada equipo y nunca se publican**. El `index.html` de esta carpeta no contiene ningún SITREP.
+**Vista local**: en modo editor también se puede cargar un texto solo para revisarlo en ese equipo, sin publicarlo. Mientras exista una vista local, esa área muestra la vista local en ese equipo; «Quitar vista local» vuelve a lo publicado.
+
+El sitio es público. Por eso el área 2 nunca publica nombres, y el registro de unidades con dotación nominal solo existe en la vista local de cada equipo.
 
 ## Probar sin red
 
