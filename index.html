@@ -1786,7 +1786,7 @@ const distKm = (la1, lo1, la2, lo2) => Math.hypot((lo2 - lo1) * 111.32 * Math.co
 let DIRECTO = { oleaje: 0, noticias: false, t: null };
 async function conTiempo(p, ms) { return Promise.race([p, new Promise((_, rej) => setTimeout(() => rej(new Error('tiempo')), ms))]); }
 async function oleajeDirecto(b) {
-  const r = await conTiempo(fetch(BASE_OLEAJE + ARCH_OLEAJE[b.clave] + '?callback=cb&t=' + Date.now(), { method: 'POST', cache: 'no-store' }), 25000);
+  const r = await conTiempo(fetch(BASE_OLEAJE + ARCH_OLEAJE[b.clave] + '?callback=cb&t=' + Date.now(), { method: 'POST', cache: 'no-store' }), 45000);
   if (!r.ok) throw new Error(r.status);
   const t = await r.text(); const i = t.indexOf('('), j = t.lastIndexOf(')');
   const filas = JSON.parse(i >= 0 && j > i ? t.slice(i + 1, j) : t);
@@ -1810,6 +1810,9 @@ async function complementarDirecto() {
   if (!ESTADO) return;
   const olas = ESTADO.boyas.filter(b => b.tipo === 'Oleaje' && ARCH_OLEAJE[b.clave]);
   const res = await Promise.allSettled(olas.map(oleajeDirecto));
+  // un reintento para las que no respondieron (el sitio a veces tarda)
+  const fallidas = res.map((r, i) => r.status === 'rejected' ? i : -1).filter(i => i >= 0);
+  if (fallidas.length) { const re = await Promise.allSettled(fallidas.map(i => oleajeDirecto(olas[i]))); re.forEach((r, j) => { if (r.status === 'fulfilled') res[fallidas[j]] = r; }); }
   let ok = 0;
   res.forEach((r, i) => { if (r.status === 'fulfilled') { const b = olas[i]; for (const k of ['error', 'medicion', 'posicion_reportada', 'serie_hsig']) delete b[k]; Object.assign(b, r.value); ok++; } });
   let notOk = false;
